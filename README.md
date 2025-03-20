@@ -1,2 +1,15 @@
 # Tarea-1-SO
-Repositorio para trabajar la tarea número 1 de SO
+
+### Integrantes:
+
+Tomás Gonzales, ROL:
+
+David Kripper, ROL: 202273521-K
+
+### Instruciones de uso
+
+{Agregar acá}
+
+### Supuestos utilizados
+
+{Agregar acá}
