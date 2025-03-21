@@ -2,7 +2,7 @@
 
 ### Integrantes:
 
-Tomás Gonzales, ROL:
+Tomás Gonzales, ROL: 202273609-7
 
 David Kripper, ROL: 202273521-K
 
