@@ -5,6 +5,7 @@
 #include <string>
 #include <filesystem>
 #include <sstream>
+#include <regex>
 
 using namespace std;
 
@@ -90,6 +91,93 @@ void obtener_data(const string &contenido, string &tipo, string &numero, string 
     }
 };
 
+// Esto me valida si el semestre tiene 4 digitos y el guión
+
+bool semestre_valido(const string &semestre)
+{
+    return regex_match(semestre, regex(R"(\d{4}-[12])"));
+}
+
+bool esta_en(const string &valor, const vector<string> &lista)
+{
+    return find(lista.begin(), lista.end(), valor) != lista.end();
+}
+
+// esta función me crea las carpetas y mete los archivos según corresponda
+
+void organizar_carpetas()
+{
+    string carpeta_general = "General/";
+
+    for (const auto &entry : filesystem::directory_iterator(carpeta_general))
+    {
+        string ruta_original = entry.path().string();
+        string contenido = leer_archivo(ruta_original);
+        if (contenido.empty())
+            continue;
+
+        string tipo, numero, semestre, nombre;
+        obtener_data(contenido, tipo, numero, semestre, nombre);
+
+        bool valido = true;
+        string destino_final;
+
+        if (tipo == "certamen")
+        {
+            if (!esta_en(numero, CERTAMENES) || !semestre_valido(semestre))
+            {
+                valido = false;
+            }
+            else
+            {
+                string nueva_ruta = "OUTPUT/Certamenes/" + semestre;
+                filesystem::create_directories(nueva_ruta);
+                destino_final = nueva_ruta + "/C" + numero + ".txt";
+            }
+        }
+        else if (tipo == "control")
+        {
+            if (!esta_en(numero, CONTROLES) || !semestre_valido(semestre))
+            {
+                valido = false;
+            }
+            else
+            {
+                string nueva_ruta = "OUTPUT/Controles/" + semestre;
+                filesystem::create_directories(nueva_ruta);
+                destino_final = nueva_ruta + "/Q" + numero + ".txt";
+            }
+        }
+        else if (tipo == "tarea")
+        {
+            if (nombre.empty() || !semestre_valido(semestre))
+            {
+                valido = false;
+            }
+            else
+            {
+                string nueva_ruta = "OUTPUT/Tareas/" + semestre;
+                filesystem::create_directories(nueva_ruta);
+                destino_final = nueva_ruta + "/" + nombre + ".txt";
+            }
+        }
+        else
+        {
+            valido = false;
+        }
+
+        if (!valido)
+        {
+            filesystem::create_directories("OUTPUT/Corruptos");
+            string nombre_corrupto = entry.path().filename().string();
+            destino_final = "OUTPUT/Corruptos/" + nombre_corrupto;
+        }
+
+        filesystem::rename(entry.path(), destino_final);
+        cout << "Movido a: " << destino_final << endl;
+    }
+}
+
 // Función que lee todos los archivos de la carpeta "General"
 
 void leer_todos_los_archivos()
@@ -97,7 +185,8 @@ void leer_todos_los_archivos()
     string file = "General/";
     int count = 1;
 
-    for (const auto &entry : filesystem::directory_iterator(file)){
+    for (const auto &entry : filesystem::directory_iterator(file))
+    {
         string filename = entry.path().string();
 
         string contenido = leer_archivo(filename);
@@ -109,7 +198,6 @@ void leer_todos_los_archivos()
         string tipo, numero, semestre, nombre;
 
         obtener_data(contenido, tipo, numero, semestre, nombre);
-
 
         cout << "Nombre archivo: " << filename << endl;
         cout << "Tipo: " << tipo << endl;
@@ -134,6 +222,7 @@ int main()
 {
 
     leer_todos_los_archivos();
+    organizar_carpetas();
 
     return 0;
 }
