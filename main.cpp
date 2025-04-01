@@ -95,8 +95,13 @@ void obtener_data(const string &contenido, string &tipo, string &numero, string 
 
 bool semestre_valido(const string &semestre)
 {
-    return regex_match(semestre, regex(R"(\d{4}-[12])"));
+    if (!regex_match(semestre, regex(R"(\d{4}-[12])")))
+        return false;
+
+    int anio = stoi(semestre.substr(0, 4));
+    return anio <= 2025;
 }
+
 
 bool esta_en(const string &valor, const vector<string> &lista)
 {
