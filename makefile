@@ -1,5 +1,5 @@
 
-compilador = clang++
+compilador = g++
 
 flags = -std=c++17 -Wall -Wextra -Werror
 
