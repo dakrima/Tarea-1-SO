@@ -179,45 +179,6 @@ void organizar_carpetas()
         }
 
         filesystem::rename(entry.path(), destino_final);
-        cout << "Movido a: " << destino_final << endl;
-    }
-}
-
-// Función que lee todos los archivos de la carpeta "General"
-
-void leer_todos_los_archivos()
-{
-    string file = "General/";
-    int count = 1;
-
-    for (const auto &entry : filesystem::directory_iterator(file))
-    {
-        string filename = entry.path().string();
-
-        string contenido = leer_archivo(filename);
-        if (contenido.empty())
-        {
-            continue;
-        }
-
-        string tipo, numero, semestre, nombre;
-
-        obtener_data(contenido, tipo, numero, semestre, nombre);
-
-        cout << "Nombre archivo: " << filename << endl;
-        cout << "Tipo: " << tipo << endl;
-        if (tipo == "certamen" || tipo == "control")
-        {
-            cout << "Numero: " << numero << endl;
-        }
-        else if (tipo == "tarea")
-        {
-            cout << "Nombre: " << nombre << endl;
-        }
-        cout << "Semestre: " << semestre << endl;
-        cout << count << endl;
-        cout << " " << endl;
-        count++;
     }
 }
 
@@ -225,8 +186,6 @@ void leer_todos_los_archivos()
 
 int main()
 {
-
-    leer_todos_los_archivos();
     organizar_carpetas();
 
     return 0;
