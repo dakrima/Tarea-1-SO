@@ -39,5 +39,5 @@ Las funciones creadas fueron:
 
 - Se asume que se tiene instalado las librerías **fstream**, **iostream**, **vector**, **string**, **filesystem**, **sstream** y **regex**.
 - No se admiten nombres de tareas con **tíldes**. Es decir, que el nombre de las tareas pertenecen al alfabeto ingles.
-- Se asume que se tiene una carpeta llamada "General" que contiene todos los archivos .txt que se quieren ordenar en la carpeta OUTPUT. La carpeta "General" debe estar en la misma carpeta en la que se encuentra el archivo "main.cpp".
-- Se asumió que las tareas, certamenes y controles solo pueden pertenecer al 2025 o anteriores.
+- Se asume que se tiene una carpeta llamada "General" que contiene todos los archivos .txt que se quieren ordenar en la carpeta OUTPUT. La carpeta "General" debe estar en la misma carpeta en la que se encuentra el archivo "main.cpp". Luego de la ejecución del programa la carpeta "General" quedará vacía.
+- Se asumió que las tareas, certamenes y controles solo pueden pertenecer al período 2025-2 o anteriores.
